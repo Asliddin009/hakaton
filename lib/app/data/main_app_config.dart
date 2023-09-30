@@ -6,7 +6,7 @@ import '../domain/app_config.dart';
 @prod
 class ProdAppConfig implements AppConfig {
   @override
-  String get baseUrl => "_";
+  String get baseUrl => "http://192.168.137.1:8080/api/v1/";
 
   @override
   String get host => Environment.prod;

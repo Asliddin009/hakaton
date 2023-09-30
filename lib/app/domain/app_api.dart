@@ -3,9 +3,7 @@ import 'package:dio/dio.dart';
 abstract class AppApi {
   Future<dynamic> signUp({
     required String password,
-    required String username,
-    required String email,
-  });
+    required String username,});
 
   Future<dynamic> signIn({
     required String password,
@@ -16,7 +14,6 @@ abstract class AppApi {
 
   Future<dynamic> userUpdate({
     String? username,
-    String? email,
   });
 
   Future<dynamic> passwordUpdate({
@@ -30,9 +27,4 @@ abstract class AppApi {
 
   Future<dynamic> fetch(RequestOptions requestOptions);
 
-  Future<dynamic> fetchPosts(int fetchLimit, int offset);
-  Future<dynamic> fetchPost(String id);
-  Future<dynamic> deletePost(String id);
-
-  Future<dynamic> createPost(Map args);
 }

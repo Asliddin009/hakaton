@@ -1,9 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hakaton/app/domain/entities/error_entity/error_entity.dart';
 import 'package:hakaton/feature/auth/domain/auth_repository.dart';
 import 'package:hakaton/feature/auth/domain/entities/user_entity/user_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../../app/data/shared_preferences/shared_preferences_storag.dart';
 
 part 'auth_state.dart';
 
@@ -13,15 +16,16 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this.authRepository) : super(AuthState.notAuthorized());
   final AuthRepository authRepository;
 
+  void startLoading() {
+    emit(AuthState.waiting());
+  }
+
   Future<void> signIn({
     required String username,
     required String password,
   }) async {
-    emit(AuthState.waiting());
     try {
-      final UserEntity userEntity =
-          await authRepository.signIn(password: password, username: username);
-      emit(AuthState.authorized(userEntity));
+      emit(AuthState.waiting());
     } catch (error, st) {
       addError(error, st);
     }
@@ -36,15 +40,15 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     emit(AuthState.waiting());
     try {
-      final UserEntity userEntity = await authRepository.signUp(
-          password: password, username: username);
+      final UserEntity userEntity =
+          await authRepository.signUp(password: password, username: username);
       emit(AuthState.authorized(userEntity));
     } catch (error, st) {
       addError(error, st);
     }
   }
 
- /* Future<void> refreshToken() async {
+  /* Future<void> refreshToken() async {
     final refreshToken =
     state.whenOrNull(authorized: (userEntity) => userEntity.refreshToken);
     try {
@@ -55,6 +59,14 @@ class AuthCubit extends Cubit<AuthState> {
       addError(error, st);
     }
   }*/
+  Future<void> getUser({required String username, required String id}) async {
+    try {
+      final UserEntity userEntity = UserEntity(username: username, id: id);
+      emit(AuthState.authorized(userEntity));
+    } catch (error) {
+      _updateUserState(AsyncSnapshot.withError(ConnectionState.done, error));
+    }
+  }
 
   Future<void> getProfile() async {
     try {
@@ -62,8 +74,8 @@ class AuthCubit extends Cubit<AuthState> {
       final UserEntity newUserEntity = await authRepository.getProfile();
       emit(state.maybeWhen(
         orElse: () => state,
-        authorized: (userEntity) => AuthState.authorized(userEntity.copyWith(
-            username: newUserEntity.username)),
+        authorized: (userEntity) => AuthState.authorized(
+            userEntity.copyWith(username: newUserEntity.username)),
       ));
       _updateUserState(const AsyncSnapshot.withData(
           ConnectionState.done, "Успешное получение данных"));
@@ -96,7 +108,8 @@ class AuthCubit extends Cubit<AuthState> {
           username: isEmptyUsername ? null : username);
       emit(state.maybeWhen(
         orElse: () => state,
-        authorized: (userEntity) => AuthState.authorized(userEntity.copyWith(username: newUserEntity.username)),
+        authorized: (userEntity) => AuthState.authorized(
+            userEntity.copyWith(username: newUserEntity.username)),
       ));
       _updateUserState(const AsyncSnapshot.withData(
           ConnectionState.done, "Успешное обновление данных"));
@@ -131,5 +144,4 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthState.error(error));
     super.addError(error, stackTrace);
   }
-
 }
