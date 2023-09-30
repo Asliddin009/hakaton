@@ -2,13 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hakaton/app/domain/utils.dart';
 import 'package:hakaton/app/presentation/components/app_snack_bar.dart';
 import 'package:hakaton/feature/auth/domain/auth_state/auth_cubit.dart';
 import 'package:hakaton/feature/auth/ui/register_screen.dart';
 import 'package:hakaton/feature/main/main_screen.dart';
 
+import '../../../app/data/global_const.dart';
 import '../../../app/data/shared_preferences/shared_preferences_storag.dart';
+import '../../../app/presentation/utils/utils.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -18,9 +19,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final controllerLogin = TextEditingController();
+  final controllerLogin = TextEditingController()..text="admin";
 
-  final controllerPassword = TextEditingController();
+  final controllerPassword = TextEditingController()..text='123';
 
   final GlobalKey<FormState> formKey = GlobalKey();
 
@@ -100,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } else {
       return Scaffold(
-        appBar: AppBar(title: const Text("Авторизация2")),
+        appBar: AppBar(title: const Text("Авторизация")),
         body: Form(
           key: formKey,
           child: Center(
@@ -133,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           //locator.get<AuthCubit>().startLoading();
                           final dio = Dio();
                           final response = await dio.post(
-                              'http://10.241.1.152:8080/api/v1/auth/token/login/',
+                              '$APP_URL/api/v1/auth/token/login/',
                               data: {
                                 'username': controllerLogin.text,
                                 'password': controllerPassword.text
@@ -144,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             PreferencesStorage.setAuthToken(
                                 response.data['auth_token']);
                             final response2 = await dio.get(
-                                "http://10.241.1.152:8080/api/v1/auth/users/me",
+                                "$APP_URL/api/v1/auth/users/me",
                                 options: Options(headers: {
                                   "Authorization":
                                       "token ${response.data['auth_token']}"

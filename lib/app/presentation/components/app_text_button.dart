@@ -17,9 +17,7 @@ class AppTextButton extends StatelessWidget {
     return ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
-            fixedSize: MaterialStateProperty.all<Size>(
-                const Size(double.maxFinite, 40))),
+            backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),),
         child: Text(text));
   }
 }

@@ -55,7 +55,7 @@ class RegisterScreen extends StatelessWidget {
                     } else {
                       final dio = Dio();
                       final response = await dio.post(
-                          'http://10.241.1.152:8080/api/v1/auth/users/',
+                          'http://192.168.151.222:8080/api/v1/auth/users/',
                           data: {
                             'username': controllerLogin.text,
                             'password': controllerPassword.text
