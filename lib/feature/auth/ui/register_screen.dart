@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:hakaton/app/data/global_const.dart';
 import 'package:hakaton/feature/auth/domain/auth_state/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +56,7 @@ class RegisterScreen extends StatelessWidget {
                     } else {
                       final dio = Dio();
                       final response = await dio.post(
-                          'http://192.168.151.222:8080/api/v1/auth/users/',
+                          '$APP_URL/api/v1/auth/users/',
                           data: {
                             'username': controllerLogin.text,
                             'password': controllerPassword.text
@@ -72,8 +73,8 @@ class RegisterScreen extends StatelessWidget {
                   },
                   text: "регистрация",
                 ),
-                SizedBox(height: 16,)
-                ,Text(        "Введённый пароль слишком короткий. Он должен содержать как минимум 8 символов.\nВведённый пароль слишком широко распространён.\nВведённый пароль состоит только из цифр.")
+                const SizedBox(height: 16,)
+                ,const Text("Введённый пароль слишком короткий. Он должен содержать как минимум 8 символов.\nВведённый пароль слишком широко распространён.\nВведённый пароль состоит только из цифр.")
               ],
             ),
           ),

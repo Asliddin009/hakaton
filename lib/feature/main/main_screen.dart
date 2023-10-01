@@ -280,7 +280,7 @@ class _MainScreenState extends State<MainScreen> {
                                     splashColor: Colors.red.withAlpha(50),
                                     onTap: () {Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const ToDo()),
+                                      MaterialPageRoute(builder: (context) =>  ToDo(title: list[index],)),
                                     );},
                                     child: SizedBox(
                                       width: 300,
