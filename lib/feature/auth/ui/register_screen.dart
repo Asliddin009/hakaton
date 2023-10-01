@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hakaton/app/data/global_const.dart';
 import 'package:hakaton/feature/auth/domain/auth_state/auth_cubit.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,16 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("RegisterScreen")),
+      appBar: AppBar(title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Container(
+          child: SvgPicture.asset(
+            "assets/logo.svg",
+            semanticsLabel: 'Logo',
+            height: 20,
+          ),
+        ),
+      ]),
+        backgroundColor: Colors.white,),
       body: Form(
         key: formKey,
         child: Center(
@@ -84,8 +94,8 @@ class RegisterScreen extends StatelessWidget {
   }
 
   void _onTapToSignUp(AuthCubit authCubit) => authCubit.signUp(
-        username: controllerLogin.text,
-        password: controllerPassword.text,
-        email: controllerEmail.text,
-      );
+    username: controllerLogin.text,
+    password: controllerPassword.text,
+    email: controllerEmail.text,
+  );
 }

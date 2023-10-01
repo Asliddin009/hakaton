@@ -240,6 +240,10 @@ class _ToDoState extends State<ToDo> {
                             }else{
                               AppSnackBar.showSnackBarWithMessage(context,"Агрегация прошла НЕ успешно");
                             }
+                            GetTasks();
+                            setState(() {
+
+                            });
                           },
                           label:
                             Icon(

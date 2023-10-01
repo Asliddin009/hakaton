@@ -51,7 +51,7 @@ class _ChirinState extends State<Chirin> {
                               fontSize: 16),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 25,
                       ),
                       Container(
@@ -59,7 +59,7 @@ class _ChirinState extends State<Chirin> {
                         height: 20,
                         color: Colors.black,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 25,
                       ),
                       ElevatedButton(
@@ -67,15 +67,15 @@ class _ChirinState extends State<Chirin> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => RegisterScreen()));},
-                        child: Text("Регистрация"),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                             Colors.black,
                           ),
                           foregroundColor: MaterialStateProperty.all<Color>(
-                            Color(0xffffffff),
+                            const Color(0xffffffff),
                           ),
                         ),
+                        child: const Text("Регистрация"),
                       )
                     ],
                   ),
@@ -93,33 +93,34 @@ class _ChirinState extends State<Chirin> {
                 SvgPicture.asset(
                   'assets/main.svg',
                   semanticsLabel: 'My SVG Image',
-                  height: 500,
-                  width: 500,
+                  height: 400,
+                  width: 400,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Система \nуправления",
                       style:
-                          TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
-                    Text(
+                    const Text(
                       "Проектами и задачами",
                       style: TextStyle(fontSize: 40),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Container(
-                        width: 500,
-                        child: Text(
+                        height: 100,
+                        width: MediaQuery.of(context).size.width/3,
+                        child: const Text(
                           "Удобная в использовании система управления задачами и проектами, основанная на канбан-методологии, которая поможет автоматизировать  и существенно увеличить продуктивность работы вашей команды.",
                           softWrap: true,
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             overflow: TextOverflow.visible,
                           ),
                         ),
@@ -131,7 +132,7 @@ class _ChirinState extends State<Chirin> {
                         width: 150,
                         height: 40,
                         child: ElevatedButton.icon(
-                          icon: Text(
+                          icon: const Text(
                             "Начать",
                           ),
                           style: ButtonStyle(
@@ -146,7 +147,7 @@ class _ChirinState extends State<Chirin> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => LoginScreen()));},
-                          label: Icon(
+                          label: const Icon(
                             Icons.arrow_forward,
                             size: 15,
                           ),
