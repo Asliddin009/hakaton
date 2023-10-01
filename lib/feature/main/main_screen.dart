@@ -5,10 +5,12 @@ import 'package:hakaton/app/domain/app_api.dart';
 import 'package:hakaton/app/presentation/components/app_snack_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hakaton/app/presentation/components/app_text_button.dart';
+import 'package:hakaton/feature/auth/ui/Chirin.dart';
 import 'package:hakaton/feature/main/domain/entity/project_entity.dart';
 
 import '../../app/data/global_const.dart';
 import '../../app/presentation/utils/utils.dart';
+import '../sprint_table/ToDo.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -20,7 +22,8 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   double countSprint = 1;
   bool flagLoading = true;
-  List<String> list=[];
+  List<String> list = [];
+
   @override
   void initState() {
     getProjects();
@@ -31,9 +34,9 @@ class _MainScreenState extends State<MainScreen> {
     final token = await PreferencesStorage.getAuthToken();
     final dio = Dio();
     final response = await dio.get("$APP_URL/api/v1/my_projects/",
-        options: Options(headers: {"Authorization":token}));
+        options: Options(headers: {"Authorization": token}));
     if (response.statusCode == 200) {
-      for(int i=0;i<(response as Iterable).length;i++){
+      for (int i = 0; i < (response.data['projects']).length; i++) {
         list.add(response.data['projects'][i]['title']);
       }
       flagLoading = false;
@@ -43,8 +46,12 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if(flagLoading){
-      return const Scaffold(body: Center(child: CircularProgressIndicator(),),);
+    if (flagLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
     }
     return Scaffold(
       body: Padding(
@@ -212,8 +219,8 @@ class _MainScreenState extends State<MainScreen> {
                                                       } else {
                                                         AppSnackBar
                                                             .showSnackBarWithMessage(
-                                                            context,
-                                                            "Проект не создан");
+                                                                context,
+                                                                "Проект не создан");
                                                       }
                                                     },
                                                     child:
@@ -256,20 +263,36 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                           ),
                         ),
-*/                      list==[]?
-                        Align(
-                          alignment: Alignment.center,
-                          child: SvgPicture.asset(
-                            'assets/main_back.svg',
-                            height: MediaQuery.of(context).size.height * 0.6,
-                          ),
-                        ):ListView.builder(itemBuilder: (context,index)=>Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-
-                          ),
-child: Text(list[index]),
-                          ),itemCount: list.length),
+*/
+                        list == []
+                            ? Align(
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                  'assets/main_back.svg',
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.6,
+                                ),
+                              )
+                            : ListView.builder(
+                                itemBuilder: (context, index) => Card(
+                                  clipBehavior: Clip.hardEdge,
+                                  child: InkWell(
+                                    splashColor: Colors.red.withAlpha(50),
+                                    onTap: () {Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const ToDo()),
+                                    );},
+                                    child: SizedBox(
+                                      width: 300,
+                                      height: 100,
+                                      child: ListTile(
+                                        title: Text(list[index]),
+                                        subtitle: Text('Написать бэк'),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                itemCount: list.length),
                       ],
                     ),
                   )),
