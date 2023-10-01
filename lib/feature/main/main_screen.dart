@@ -23,6 +23,7 @@ class _MainScreenState extends State<MainScreen> {
   double countSprint = 1;
   bool flagLoading = true;
   List<String> list = [];
+  List<int> listID = [];
 
   @override
   void initState() {
@@ -38,6 +39,8 @@ class _MainScreenState extends State<MainScreen> {
     if (response.statusCode == 200) {
       for (int i = 0; i < (response.data['projects']).length; i++) {
         list.add(response.data['projects'][i]['title']);
+        listID.add(response.data['projects'][i]['id']);
+
       }
       flagLoading = false;
       setState(() {});
@@ -280,7 +283,7 @@ class _MainScreenState extends State<MainScreen> {
                                     splashColor: Colors.red.withAlpha(50),
                                     onTap: () {Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) =>  ToDo(title: list[index],)),
+                                      MaterialPageRoute(builder: (context) =>  ToDo(title: list[index], id: listID[index].toString(),)),
                                     );},
                                     child: SizedBox(
                                       width: 300,

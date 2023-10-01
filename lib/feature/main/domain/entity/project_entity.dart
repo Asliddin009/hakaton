@@ -1,7 +1,4 @@
-
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 part 'project_entity.freezed.dart';
 part 'project_entity.g.dart';
 
