@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hakaton/app/data/shared_preferences/shared_preferences_storag.dart';
+import 'package:hakaton/app/domain/app_api.dart';
 import 'package:hakaton/app/presentation/components/app_snack_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hakaton/app/presentation/components/app_text_button.dart';
+import 'package:hakaton/feature/main/domain/entity/project_entity.dart';
 
 import '../../app/data/global_const.dart';
 import '../../app/presentation/utils/utils.dart';
@@ -17,8 +19,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   double countSprint = 1;
-  bool flagLoading = false;
-
+  bool flagLoading = true;
+  List<String> list=[];
   @override
   void initState() {
     getProjects();
@@ -26,14 +28,17 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void getProjects() async {
-    /*final token = await PreferencesStorage.getAuthToken();
+    final token = await PreferencesStorage.getAuthToken();
     final dio = Dio();
-    final response = await dio.get("$APP_URL/my_projects/",
+    final response = await dio.get("$APP_URL/api/v1/my_projects/",
         options: Options(headers: {"Authorization":token}));
     if (response.statusCode == 200) {
+      for(int i=0;i<(response as Iterable).length;i++){
+        list.add(response.data['projects'][i]['title']);
+      }
       flagLoading = false;
       setState(() {});
-    }*/
+    }
   }
 
   @override
@@ -191,7 +196,7 @@ class _MainScreenState extends State<MainScreen> {
                                                           await PreferencesStorage
                                                               .getAuthToken();
                                                       final response = await dio.post(
-                                                          "http://192.168.151.222:8080/api/v1/create_project/",
+                                                          "$APP_URL/api/v1/create_project/",
                                                           options: Options(headers: {"Authorization": token}),
                                                           data: {
                                                             "project_title":
@@ -204,7 +209,12 @@ class _MainScreenState extends State<MainScreen> {
                                                             .showSnackBarWithMessage(
                                                                 context,
                                                                 "Проект создан");
-                                                      } else {}
+                                                      } else {
+                                                        AppSnackBar
+                                                            .showSnackBarWithMessage(
+                                                            context,
+                                                            "Проект не создан");
+                                                      }
                                                     },
                                                     child:
                                                         const Text('СОЗДАТЬ'),
@@ -246,14 +256,20 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                           ),
                         ),
-*/
+*/                      list==[]?
                         Align(
                           alignment: Alignment.center,
                           child: SvgPicture.asset(
                             'assets/main_back.svg',
                             height: MediaQuery.of(context).size.height * 0.6,
                           ),
-                        ),
+                        ):ListView.builder(itemBuilder: (context,index)=>Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+
+                          ),
+child: Text(list[index]),
+                          ),itemCount: list.length),
                       ],
                     ),
                   )),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../feature/auth/ui/Chirin.dart';
 import '../../feature/auth/ui/components/auth_builder.dart';
 import '../../feature/auth/ui/login_screen.dart';
 import '../../feature/main/main_screen.dart';
@@ -12,7 +13,7 @@ class RootScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AuthBuilder(
-      isNotAuthorized: (context) => LoginScreen(),//LoginScreen(),
+      isNotAuthorized: (context) => const Chirin(),//LoginScreen(),
       isWaiting: (context) => const AppLoader(),
       isAuthorized: (context, value, child) => MainScreen(),
     );
