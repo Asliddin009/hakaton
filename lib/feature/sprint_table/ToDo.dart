@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hakaton/app/presentation/components/app_snack_bar.dart';
 import 'package:hakaton/app/presentation/components/local_app_bar_.dart';
 import 'GetProject.dart';
+import 'domain/CreateTask.dart';
 import 'domain/entity/task_entity.dart';
 
 class ToDo extends StatefulWidget {
@@ -230,7 +232,15 @@ class _ToDoState extends State<ToDo> {
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
-                          onPressed: () {},
+                          onPressed: () async{
+                            final response =await CreateTask(listTaskBackground);
+                            print("Статус код "+response.statusCode.toString());
+                            if(response.statusCode==200){
+                              AppSnackBar.showSnackBarWithMessage(context,"Агрегация прошла успешно");
+                            }else{
+                              AppSnackBar.showSnackBarWithMessage(context,"Агрегация прошла НЕ успешно");
+                            }
+                          },
                           label:
                             Icon(
                               Icons.arrow_right_alt,

@@ -11,7 +11,9 @@ class MainAppBuilder implements AppBuilder {
   @override
   Widget buildApp() {
     return const _GlobalProviders(
-      child: MaterialApp(home: RootScreen()),
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: RootScreen()),
     );
   }
 }
